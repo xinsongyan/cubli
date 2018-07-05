@@ -26,5 +26,5 @@ ROS Control (position or torque control):
 
 Example of Moving Joints:
 
-    rostopic pub /cubli/joint_x_position_controller/command std_msgs/Float64 "data: 0.1"
+    rostopic pub /cubli/joint_x_position_controller/command std_msgs/Float64 "data: 0.5"
 
