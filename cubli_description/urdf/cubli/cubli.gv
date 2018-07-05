@@ -1,0 +1,14 @@
+digraph G {
+node [shape=box];
+"cube" [label="cube"];
+"wheel_x" [label="wheel_x"];
+"wheel_y" [label="wheel_y"];
+"wheel_z" [label="wheel_z"];
+node [shape=ellipse, color=blue, fontcolor=blue];
+"cube" -> "joint_x" [label="xyz: 0.476 0 0 \nrpy: 0 1.5708 -0"]
+"joint_x" -> "wheel_x"
+"cube" -> "joint_y" [label="xyz: 0 0.476 0 \nrpy: -1.5708 0 0"]
+"joint_y" -> "wheel_y"
+"cube" -> "joint_z" [label="xyz: 0 0 0.476 \nrpy: 0 -0 0"]
+"joint_z" -> "wheel_z"
+}

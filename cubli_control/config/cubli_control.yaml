@@ -1,0 +1,33 @@
+cubli:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 250
+  
+  # Position Controllers ---------------------------------------
+  joint_x_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: joint_x
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  joint_y_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: joint_y
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  joint_z_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: joint_z
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+
+
+
+  # Torque Controllers ---------------------------------------
+  joint_x_torque_controller:
+    type: effort_controllers/JointEffortController
+    joint: joint_x
+  joint_y_torque_controller:
+    type: effort_controllers/JointEffortController
+    joint: joint_y
+  joint_z_torque_controller:
+    type: effort_controllers/JointEffortController
+    joint: joint_z
+

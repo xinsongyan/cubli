@@ -1,0 +1,187 @@
+<?xml version="1.0"?>
+<!-- Revolute-Revolute Manipulator -->
+<robot name="cubli" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Constants for robot dimensions -->
+  <xacro:property name="PI" value="3.1415926535897931"/>
+  <xacro:property name="pi" value="3.1415926535897931"/>
+  <xacro:property name="cube_mass" value="1" />
+  <xacro:property name="wheel_mass" value="1" />
+
+  <xacro:property name="cube_length" value="1.0" />
+  <xacro:property name="wheel_length" value="0.05" />
+  <xacro:property name="wheel_radius" value="0.4" />
+  <xacro:property name="offset" value="0.0001" />
+
+
+  <!-- Import all Gazebo-customization elements, including Gazebo colors -->
+  <xacro:include filename="$(find cubli_description)/urdf/cubli.gazebo" />
+  <!-- Import Rviz colors -->
+  <xacro:include filename="$(find cubli_description)/urdf/materials.xacro" />
+
+  <!--&lt;!&ndash; Used for fixing robot to Gazebo 'base_link' &ndash;&gt;-->
+  <!--<link name="world"/>-->
+
+  <!--<joint name="fixed" type="fixed">-->
+    <!--<parent link="world"/>-->
+    <!--<child link="cube"/>-->
+  <!--</joint>-->
+
+
+  <link name="cube">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="${cube_mass}" />
+      <inertia  ixx="${1/6*cube_mass*cube_length*cube_length}" ixy="0.0"  ixz="0.0"  iyy="${1/6*cube_mass*cube_length*cube_length}"  iyz="0.0"  izz="${1/6*cube_mass*cube_length*cube_length}" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${cube_length} ${cube_length} ${cube_length}" />
+      </geometry>
+      <material>
+        <script>
+          <uri>model://mud_box/materials/scripts</uri>
+          <uri>model://mud_box/materials/textures</uri>
+          <name>vrc/mud</name>
+        </script>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${cube_length} ${cube_length} ${cube_length}" />
+      </geometry>
+    </collision>
+  </link>
+
+
+
+  <link name="wheel_x">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1.0" />
+      <inertia ixx="${1/12*wheel_mass*(3*wheel_radius*wheel_radius+wheel_length*wheel_length)}" ixy="0.0" ixz="0.0" iyy="${1/12*wheel_mass*(3*wheel_radius*wheel_radius+wheel_length*wheel_length)}" iyz="0.0" izz="${1/2*wheel_mass*wheel_radius*wheel_radius}"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${wheel_length}" radius="${wheel_radius}"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${wheel_length}" radius="${wheel_radius}"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="wheel_y">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1.0" />
+      <inertia ixx="${1/12*wheel_mass*(3*wheel_radius*wheel_radius+wheel_length*wheel_length)}" ixy="0.0" ixz="0.0" iyy="${1/12*wheel_mass*(3*wheel_radius*wheel_radius+wheel_length*wheel_length)}" iyz="0.0" izz="${1/2*wheel_mass*wheel_radius*wheel_radius}"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${wheel_length}" radius="${wheel_radius}"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${wheel_length}" radius="${wheel_radius}"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="wheel_z">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1.0" />
+      <inertia ixx="${1/12*wheel_mass*(3*wheel_radius*wheel_radius+wheel_length*wheel_length)}" ixy="0.0" ixz="0.0" iyy="${1/12*wheel_mass*(3*wheel_radius*wheel_radius+wheel_length*wheel_length)}" iyz="0.0" izz="${1/2*wheel_mass*wheel_radius*wheel_radius}"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${wheel_length}" radius="${wheel_radius}"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${wheel_length}" radius="${wheel_radius}"/>
+      </geometry>
+    </collision>
+  </link>
+
+
+  <joint name="joint_x" type="continuous">
+    <parent link="cube"/>
+    <child link="wheel_x"/>
+    <origin xyz="${cube_length/2-wheel_length/2+offset} 0 0" rpy="0 ${pi/2} 0"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="0.7"/>
+  </joint>
+
+  <joint name="joint_y" type="continuous">
+    <parent link="cube"/>
+    <child link="wheel_y"/>
+    <origin xyz="0 ${cube_length/2-wheel_length/2+offset} 0" rpy="-${pi/2} 0 0"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="0.7"/>
+  </joint>
+
+  <joint name="joint_z" type="continuous">
+    <parent link="cube"/>
+    <child link="wheel_z"/>
+    <origin xyz="0 0 ${cube_length/2-wheel_length/2+offset}" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="0.7"/>
+  </joint>
+
+
+
+
+
+
+  <transmission name="tran1">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_x">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor1">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran2">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_y">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor2">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran3">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_z">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor3">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+
+
+
+
+</robot>
