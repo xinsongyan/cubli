@@ -39,13 +39,6 @@
       <geometry>
         <box size="${cube_length} ${cube_length} ${cube_length}" />
       </geometry>
-      <material>
-        <script>
-          <uri>model://mud_box/materials/scripts</uri>
-          <uri>model://mud_box/materials/textures</uri>
-          <name>vrc/mud</name>
-        </script>
-      </material>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
